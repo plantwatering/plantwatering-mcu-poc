@@ -5,3 +5,10 @@ Makefile
 *.o
 *.a
 *.so
+tests/googletest/
+Testing/
+googletest-build/
+googletest-download/
+googletest-prefix/
+googletest-src/
+tests/valve
