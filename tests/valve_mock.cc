@@ -2,58 +2,60 @@
 #include <stdio.h>
 #include <errno.h>
 #include "valve_driver.h"
+#include "valve_mock.h"
+#include "gtest/gtest.h"
 
-struct valve_console_priv {
+struct valve_mock_priv {
     bool cached_state; /* false means closed, true means open */
 };
 
-static int valve_console_open(struct valve_driver* drv)
+static int valve_mock_open(struct valve_driver* drv)
 {
-    struct valve_console_priv *priv = (struct valve_console_priv*) drv->priv;
+    struct valve_mock_priv *priv = (struct valve_mock_priv*) drv->priv;
 
-    if (priv->cached_state) {
+    if (!priv->cached_state) {
         priv->cached_state = !priv->cached_state;
-        printf("Valve opened\n");
+        SUCCEED();
     } else {
-        printf("Valve already open");
+        ADD_FAILURE() << "Valve already open";
     }
 
     return 0;
 }
 
-static int valve_console_close(struct valve_driver* drv)
+static int valve_mock_close(struct valve_driver* drv)
 {
-    struct valve_console_priv *priv = (struct valve_console_priv*) drv->priv;
+    struct valve_mock_priv *priv = (struct valve_mock_priv*) drv->priv;
 
     if (priv->cached_state) {
         priv->cached_state = !priv->cached_state;
-        printf("Valve closed\n");
+        SUCCEED();
     } else {
-        printf("Valve already closed");
+        ADD_FAILURE() << "Valve already closed";
     }
 
     return 0;
 }
 
-static int valve_console_get_state(const struct valve_driver* drv, bool *value)
+static int valve_mock_get_state(const struct valve_driver* drv, bool *value)
 {
-    struct valve_console_priv *priv = (struct valve_console_priv*) drv->priv;
+    struct valve_mock_priv *priv = (struct valve_mock_priv*) drv->priv;
 
     *value = priv->cached_state;
 
     return 0;
 }
 
-static int valve_console_priv_init(struct valve_driver *drv)
+static int valve_mock_priv_init(struct valve_driver *drv)
 {
-    struct valve_console_priv *priv = (struct valve_console_priv*) drv->priv;
+    struct valve_mock_priv *priv = (struct valve_mock_priv*) drv->priv;
 
     priv->cached_state = false;
 
     return 0;
 }
 
-int valve_console_init(struct valve_driver *drv)
+int valve_mock_init(struct valve_driver *drv)
 {
     int ret;
 
@@ -61,23 +63,23 @@ int valve_console_init(struct valve_driver *drv)
         return -EINVAL;
     }
 
-    drv->open = valve_console_open;
-    drv->close = valve_console_close;
-    drv->get_state = valve_console_get_state;
+    drv->open = valve_mock_open;
+    drv->close = valve_mock_close;
+    drv->get_state = valve_mock_get_state;
 
-    drv->priv = (struct valve_console_priv*) malloc(sizeof(struct valve_console_priv));
+    drv->priv = (struct valve_mock_priv*) malloc(sizeof(struct valve_mock_priv));
     if (!drv->priv) {
         ret = -ENOMEM;
         goto nomem;
     }
 
-    return valve_console_priv_init(drv);
+    return valve_mock_priv_init(drv);
 nomem:
     free(drv);
     return ret;
 }
 
-void valve_console_deinit(struct valve_driver *drv)
+void valve_mock_deinit(struct valve_driver *drv)
 {
     if (!drv)
         return;
