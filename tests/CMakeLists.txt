@@ -14,4 +14,4 @@ macro(package_add_test TESTNAME)
     target_link_libraries(${TESTNAME} drivers)
 endmacro()
 
-package_add_test(valve valve_test.cc)
+package_add_test(valve valve_test.cc valve_mock.cc)
