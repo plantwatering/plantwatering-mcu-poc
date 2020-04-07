@@ -1,5 +1,7 @@
 # Plantwatering MCU - POC
 
+![](https://github.com/plantwatering/plantwatering-mcu-poc/workflows/CI/badge.svg)
+
 This is only a quick made proof of concept.
 It is based on [this file](https://github.com/adafruit/Adafruit_nRF52_Arduino/blob/master/libraries/Bluefruit52Lib/examples/Peripheral/custom_hrm/custom_hrm.ino)
 
