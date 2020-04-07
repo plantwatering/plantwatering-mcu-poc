@@ -35,6 +35,11 @@ int valve_init(struct valve *v, struct valve_driver *drv)
 {
     int ret;
 
+    if (!drv) {
+        ret = -EINVAL;
+        goto exit;
+    }
+
     v = (struct valve*) malloc(sizeof(*v));
     if (!v) {
         ret = -ENOMEM;
