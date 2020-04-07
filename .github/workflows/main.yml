@@ -26,3 +26,9 @@ jobs:
       run: |
         export GTEST_OUTPUT=xml
         make test
+
+    - name: Archive test result
+      uses: actions/upload-artifact@v1
+      with:
+        name: test_detail.xml
+        path: tests/test_detail.xml
