@@ -11,7 +11,7 @@ static int valve_console_open(struct valve_driver* drv)
 {
     struct valve_console_priv *priv = (struct valve_console_priv*) drv->priv;
 
-    if (priv->cached_state) {
+    if (!priv->cached_state) {
         priv->cached_state = !priv->cached_state;
         printf("Valve opened\n");
     } else {
