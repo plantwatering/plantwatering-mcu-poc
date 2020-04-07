@@ -1,6 +1,10 @@
 #ifndef __VALVE_H
 #define __VALVE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 #include "valve_driver.h"
 
@@ -17,5 +21,9 @@ struct valve {
  * @return errno if error, 0 otherwise
  */
 int valve_init(struct valve *v, struct valve_driver *drv);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // __VALVE_H
