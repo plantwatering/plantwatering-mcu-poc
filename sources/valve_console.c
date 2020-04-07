@@ -57,10 +57,8 @@ int valve_console_init(struct valve_driver *drv)
 {
     int ret;
 
-    drv = (struct valve_driver*) malloc(sizeof(*drv));
     if (!drv) {
-        ret = -ENOMEM;
-        goto exit;
+        return -EINVAL;
     }
 
     drv->open = valve_console_open;
@@ -76,6 +74,12 @@ int valve_console_init(struct valve_driver *drv)
     return valve_console_priv_init(drv);
 nomem:
     free(drv);
-exit:
     return ret;
+}
+
+void valve_console_deinit(struct valve_driver *drv)
+{
+    if (!drv)
+        return;
+    free(drv->priv);
 }

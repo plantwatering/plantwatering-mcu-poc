@@ -39,17 +39,17 @@ struct valve_driver {
 To use all this together, you can do the following:
 ```c
 int ret;
-struct valve_driver *drv;
-struct valve *v;
+struct valve_driver drv;
+struct valve v;
 
-ret = valve_console_init(drv);
+ret = valve_console_init(&drv);
 /* do somthing with ret */
-ret = valve_init(v, drv);
+ret = valve_init(&v, &drv);
 /* do somehting with ret */
 
 /* you can call valve methods now */
 bool status;
-ret = v->get(v, &status);
+ret = v.get(&v, &status);
 /* do somehting with ret */
 
 static void notificate_custom(const struct valve *v, bool value)
@@ -57,7 +57,7 @@ static void notificate_custom(const struct valve *v, bool value)
     printf("New value of valve %p: %d", value);
 }
 
-v->notificate = notificate_custom;
-ret = v->set(v, true); /* <-- will call notificate_custom with true as a value */
+v.notificate = notificate_custom;
+ret = v.set(v, true); /* <-- will call notificate_custom with true as a value */
 /* do somehting with ret */
 ```

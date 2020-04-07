@@ -17,7 +17,8 @@ struct valve {
 
 /**
  * @brief Init a new valve logic. This function will allocates a new valve in v
- * @param v An uninitialized pointer
+ * @param v A pointer to valve structure
+ * @param drv A pointer to valve_driver structure
  * @return errno if error, 0 otherwise
  */
 int valve_init(struct valve *v, struct valve_driver *drv);
