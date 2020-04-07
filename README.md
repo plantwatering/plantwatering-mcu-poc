@@ -38,7 +38,7 @@ To use all this together, you can do the following:
 ```c
 int ret;
 struct valve_driver *drv;
-struct valve valve *v;
+struct valve *v;
 
 ret = valve_console_init(drv);
 /* do somthing with ret */
