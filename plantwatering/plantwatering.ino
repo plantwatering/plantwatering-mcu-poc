@@ -10,7 +10,6 @@ BLEDis bledis;    // DIS (Device Information Service) helper class instance
 void setup()
 {
   Serial.begin(115200);
-  while ( !Serial ) delay(10);   // for nrf52840 with native usb
 
   Bluefruit.begin();
 
