@@ -7,6 +7,15 @@ BLECharacteristic iovalve = BLECharacteristic(0x2A56);
 
 BLEDis bledis;    // DIS (Device Information Service) helper class instance
 
+/* As defined by the standart this two bits values can take:
+ *  0x0 -> Inactive
+ *  0x1 -> Active
+ *  0x2 -> Tri-state
+ *  0x3 -> Output-state
+ * In our case we will only use the two first states.
+ */
+static uint8_t output_ble_value = 0x0;
+
 void setup()
 {
   Serial.begin(115200);
@@ -58,7 +67,7 @@ void setupBLE(void)
   iovalve.begin();
 
   // TODO (alex): get valve state and provide it to the bluetooth lib
-  iovalve.write8(0x1001);
+  iovalve.write8(output_ble_value);
 }
 
 void connect_callback(uint16_t conn_handle)
@@ -89,5 +98,10 @@ void disconnect_callback(uint16_t conn_handle, uint8_t reason)
 void loop()
 {
   digitalToggle(LED_RED);
+  if ( Bluefruit.connected() ) {
+    // Toggle last bit (0, 1) each seconds
+    output_ble_value = (output_ble_value + 1) & FE;
+    hrmc.notify(output_ble_value, sizeof(output_ble_value))
+  }
   delay(1000);
 }
