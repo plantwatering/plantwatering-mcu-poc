@@ -64,6 +64,7 @@ void setupBLE(void)
   iovalve.setProperties(CHR_PROPS_READ |CHR_PROPS_WRITE | CHR_PROPS_NOTIFY);
   iovalve.setPermission(SECMODE_OPEN, SECMODE_OPEN);
   iovalve.setFixedLen(1);
+  iovalve.setWriteCallback(write_callback, false);
   iovalve.begin();
 
   // TODO (alex): get valve state and provide it to the bluetooth lib
@@ -95,13 +96,24 @@ void disconnect_callback(uint16_t conn_handle, uint8_t reason)
   Serial.print("Disconnected, reason = 0x"); Serial.println(reason, HEX);
 }
 
+void write_callback(uint16_t conn_hdl, BLECharacteristic* chr, uint8_t* data, uint16_t len)
+{
+  if (chr->uuid == iovalve.uuid) {
+    Serial.print("Write callback: ");
+    Serial.println(*data); // FIXME (aguyon): unsafe access
+    iovalve.notify(data, len);
+  }
+}
+
 void loop()
 {
   digitalToggle(LED_RED);
   if ( Bluefruit.connected() ) {
     // Toggle last bit (0, 1) each seconds
-    output_ble_value = (output_ble_value + 1) & FE;
-    hrmc.notify(output_ble_value, sizeof(output_ble_value))
+    output_ble_value = (output_ble_value + 1) & 0x1;
+    iovalve.notify(&output_ble_value, sizeof(output_ble_value));
+    Serial.print("New valve value: ");
+    Serial.println(output_ble_value);
   }
   delay(1000);
 }
