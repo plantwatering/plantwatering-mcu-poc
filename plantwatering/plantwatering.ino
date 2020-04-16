@@ -88,5 +88,6 @@ void disconnect_callback(uint16_t conn_handle, uint8_t reason)
 
 void loop()
 {
+  digitalToggle(LED_RED);
   delay(1000);
 }
