@@ -115,5 +115,5 @@ void loop()
     Serial.print("New valve value: ");
     Serial.println(output_ble_value);
   }
-  delay(1000);
+  delay(10000);
 }
