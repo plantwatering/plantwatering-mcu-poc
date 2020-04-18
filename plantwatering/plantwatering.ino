@@ -74,8 +74,7 @@ void setupBLE(void)
   iovalve.setWriteCallback(write_callback, false);
   iovalve.begin();
 
-  // TODO (alex): get valve state and provide it to the bluetooth lib
-  iovalve.write8(output_ble_value);
+  iovalve.write8(digitalRead(valve_pin));
 }
 
 void connect_callback(uint16_t conn_handle)
