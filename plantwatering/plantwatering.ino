@@ -16,6 +16,13 @@ BLEDis bledis;    // DIS (Device Information Service) helper class instance
  */
 static uint8_t output_ble_value = 0x0;
 
+/* Pin to control
+ *  https://cdn-learn.adafruit.com/assets/assets/000/046/248/original/microcontrollers_Feather_NRF52_Pinout_v1.2-1.png?1504885794
+ * 7: connected to nothing else
+ * LED_BUILTIN: onboard led
+ */
+uint16_t valve_pin = LED_BUILTIN;
+
 void setup()
 {
   Serial.begin(115200);
