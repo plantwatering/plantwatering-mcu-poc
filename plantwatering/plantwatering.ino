@@ -114,13 +114,5 @@ void write_callback(uint16_t conn_hdl, BLECharacteristic* chr, uint8_t* data, ui
 
 void loop()
 {
-  digitalToggle(LED_RED);
-  if ( Bluefruit.connected() ) {
-    // Toggle last bit (0, 1) each seconds
-    output_ble_value = (output_ble_value + 1) & 0x1;
-    iovalve.notify(&output_ble_value, sizeof(output_ble_value));
-    Serial.print("New valve value: ");
-    Serial.println(output_ble_value);
-  }
   delay(10000);
 }
