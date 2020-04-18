@@ -105,8 +105,9 @@ void disconnect_callback(uint16_t conn_handle, uint8_t reason)
 void write_callback(uint16_t conn_hdl, BLECharacteristic* chr, uint8_t* data, uint16_t len)
 {
   if (chr->uuid == iovalve.uuid) {
+    uint8_t val = (*data) & 0x1; // FIXME (aguyon): unsafe access
     Serial.print("Write callback: ");
-    Serial.println(*data); // FIXME (aguyon): unsafe access
+    Serial.println(val);
     iovalve.notify(data, len);
   }
 }
