@@ -25,7 +25,7 @@ uint16_t valve_pin = LED_BUILTIN;
 
 void setup()
 {
-  Serial.begin(115200);
+  //Serial.begin(115200);
 
   Bluefruit.begin();
 
